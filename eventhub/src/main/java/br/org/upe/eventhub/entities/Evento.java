@@ -32,6 +32,6 @@ public class Evento {
     @ManyToOne
     @JoinColumn(name = "id_admin")
     private Usuario admin;
-    @OneToMany
+    @OneToMany(mappedBy = "evento")
     private List<Inscricao> inscricoes;
 }

@@ -3,6 +3,8 @@ package br.org.upe.eventhub.services;
 import br.org.upe.eventhub.entities.Evento;
 import br.org.upe.eventhub.repositories.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +21,8 @@ public class EventoServiceImpl implements EventoService {
     }
 
     @Override
-    public List<Evento> listarEventos() {
-        return eventoRepository.findAll();
+    public Page<Evento> listarEventos(Pageable pageable) {
+        return eventoRepository.findAll(pageable);
     }
 
     @Override

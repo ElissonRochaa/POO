@@ -30,4 +30,12 @@ public class Usuario {
     private List<Inscricao> inscricoes;
     private boolean ativo;
 
+    public Usuario(String nome, String cpf, String email, String senha, String telefone) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+    }
+
 }

@@ -17,16 +17,11 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
-        try{
-            Usuario usuarioCadastrado = usuarioService.cadastrarUsuario(usuario);
-            return ResponseEntity.ok(usuarioCadastrado);
-        }catch (UsuarioExistenteException e){
-            return ResponseEntity.badRequest().body(usuario);
-        }
-
-    }
+//    @PostMapping
+//    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
+//        Usuario usuarioCadastrado = usuarioService.cadastrarUsuario(usuario);
+//        return ResponseEntity.ok(usuarioCadastrado);
+//    }
 
 
 

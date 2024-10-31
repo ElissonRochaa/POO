@@ -4,6 +4,8 @@ import br.org.upe.eventhub.entities.Usuario;
 import br.org.upe.eventhub.exceptions.UsuarioExistenteException;
 import br.org.upe.eventhub.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
 
     @Override
     @Transactional
@@ -30,7 +36,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new UsuarioExistenteException();
         }
 
-
+        String senha_cripto = this.passwordEncoder.encode(usuario.getPassword());
+        usuario.setSenha(senha_cripto);
         return usuarioRepository.save(usuario);
     }
 

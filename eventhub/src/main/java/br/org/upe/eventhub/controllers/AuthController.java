@@ -4,9 +4,12 @@ import br.org.upe.eventhub.entities.DTO.LoginDTO;
 import br.org.upe.eventhub.entities.DTO.UsuarioDTO;
 import br.org.upe.eventhub.entities.Usuario;
 import br.org.upe.eventhub.entities.enums.PerfilEnum;
+import br.org.upe.eventhub.security.TokenService;
 import br.org.upe.eventhub.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +22,19 @@ public class AuthController {
     @Autowired
     UsuarioService usuarioService;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    TokenService tokenService;
+
     @PostMapping("/login")
-    public boolean login(@RequestBody LoginDTO loginDTO) {
-        Usuario usuario = usuarioService.buscarUsuarioPorEmailESenha(loginDTO.email(), loginDTO.senha());
-        if(usuario != null) {
-            return true;
-        }
-        return false;
+    public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
+        var usernamePassword = new UsernamePasswordAuthenticationToken(
+                loginDTO.email(), loginDTO.senha());
+
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+        String token = tokenService.generateToken((Usuario) auth.getPrincipal());
+        return ResponseEntity.ok().body(token);
     }
 
     @PostMapping("/register")
